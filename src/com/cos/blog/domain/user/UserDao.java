@@ -44,7 +44,7 @@ public class UserDao {
 		return null; // DB에 username 존재x
 	}
 	
-	public int findByUsername(String username) { // 회원가입		
+	public int findByUsername(String username) {		
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT * FROM user ");
 		sb.append("WHERE username = ?");
@@ -58,7 +58,6 @@ public class UserDao {
 			pstmt.setString(1, username);
 			
 			rs = pstmt.executeQuery();
-			
 			if(rs.next()) {
 				return 1; // DB에 username 존재o
 			}
