@@ -4,6 +4,13 @@
 <%@ include file="../layout/header.jsp"%>
 
 <div class="container">
+
+	<c:if test="${detailRespDto.userId == sessionScope.principal.id}">
+		<button type="button" class="btn btn-danger"
+			onclick="deleteById(${detailRespDto.id})">삭제</button>
+	</c:if>
+
+	<br /> <br />
 	<div class="card">
 		<div class="card-body">
 			<h6 class="m-2">
@@ -67,6 +74,30 @@
 	</div>
 	<!-- 댓글 박스 끝 -->
 </div>
+
+<script>
+	function deleteById(boardId){
+	// 요청과 응답	을 json
+		var data = {
+			boardId: boardId
+		}
+		
+		$.ajax({
+			type: "post",
+			url: "/blog/board?cmd=delete",
+			data: JSON.stringify(data),
+			contentType: "application/json; charset=utf-8",
+			dataType: "json"
+		}).done(function(result){
+			console.log(result);
+			if(result.status == "ok"){
+				location.href="index.jsp";
+			}else{
+				alert("삭제에 실패하였습니다.");
+			}
+		});
+	}
+</script>
 
 </body>
 </html>

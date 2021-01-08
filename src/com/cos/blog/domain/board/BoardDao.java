@@ -36,7 +36,7 @@ public class BoardDao {
 		}
 		return -1;
 	}
-	
+
 	public int count() {
 		String sql = "SELECT COUNT(*) FROM board";
 		Connection conn = DB.getConnection();
@@ -45,8 +45,8 @@ public class BoardDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
+
+			if (rs.next()) {
 				return rs.getInt(1);
 			}
 		} catch (Exception e) {
@@ -69,19 +69,14 @@ public class BoardDao {
 		ResultSet rs = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, page*4);
+			pstmt.setInt(1, page * 4);
 
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				Board board = Board.builder()
-						.id(rs.getInt("id"))
-						.userId(rs.getInt("userId"))
-						.title(rs.getString("title"))
-						.content(rs.getString("content"))
-						.readCount(rs.getInt("readCount"))
-						.createDate(rs.getTimestamp("createDate"))
-						.build();
+				Board board = Board.builder().id(rs.getInt("id")).userId(rs.getInt("userId"))
+						.title(rs.getString("title")).content(rs.getString("content")).readCount(rs.getInt("readCount"))
+						.createDate(rs.getTimestamp("createDate")).build();
 
 				boards.add(board);
 			}
@@ -93,28 +88,31 @@ public class BoardDao {
 		}
 		return null;
 	}
-	
-	public void updateReadCount(int id) {
+
+	public int updateReadCount(int id) {
 		String sql = "update board set readCount=readCount+1 where id = ?";
 		Connection conn = DB.getConnection();
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
-			
-			pstmt.executeUpdate();
+
+			int result = pstmt.executeUpdate();
+
+			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			DB.close(conn, pstmt);
 		}
+		return -1;
 	}
-	
+
 	public DetailRespDto findById(int id) {
 		// SELECT해서 Board 객체를 컬렉션에 담아서 리턴
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT b.id, b.title, b.content, b.readCount, b.createDate, u.username");
+		sb.append("SELECT b.id, b.userId, b.title, b.content, b.readCount, b.createDate, u.username");
 		sb.append(" FROM board b INNER JOIN user u ON b.userId = u.id WHERE b.id = ?");
 		String sql = sb.toString();
 		Connection conn = DB.getConnection();
@@ -123,18 +121,14 @@ public class BoardDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
-			
+
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				DetailRespDto detailRespDto = DetailRespDto.builder()
-						.id(rs.getInt("b.id"))
-						.title(rs.getString("b.title"))
-						.content(rs.getString("b.content"))
-						.readCount(rs.getInt("b.readCount"))
-						.createDate(rs.getTimestamp("b.createDate"))
-						.username(rs.getString("u.username"))
-						.build();
+				DetailRespDto detailRespDto = DetailRespDto.builder().id(rs.getInt("b.id"))
+						.userId(rs.getInt("b.userId")).title(rs.getString("b.title")).content(rs.getString("b.content"))
+						.readCount(rs.getInt("b.readCount")).createDate(rs.getTimestamp("b.createDate"))
+						.username(rs.getString("u.username")).build();
 
 				return detailRespDto;
 			}
@@ -144,5 +138,25 @@ public class BoardDao {
 			DB.close(conn, pstmt, rs);
 		}
 		return null;
+	}
+	
+	public int deleteById(int id) {
+		String sql = "DELETE FROM board where id = ?";
+		Connection conn = DB.getConnection();
+		PreparedStatement pstmt = null;
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+
+			int result = pstmt.executeUpdate();
+
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DB.close(conn, pstmt);
+		}
+		return -1;
 	}
 }

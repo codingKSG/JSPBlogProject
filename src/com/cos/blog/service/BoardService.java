@@ -26,16 +26,22 @@ public class BoardService {
 	
 	public DetailRespDto 상세보기(int id){
 		
-		return boardDao.findById(id);
-	}
-	
-	public void 조회수(int id) {
+		int result = boardDao.updateReadCount(id);
 		
-		boardDao.updateReadCount(id);
+		if(result == 1) {
+			return boardDao.findById(id);			
+		} else {
+			return null;
+		}
 	}
 	
 	public int 글개수() {
 		
 		return boardDao.count();
+	}
+	
+	public int 게시글삭제(int id) {
+		
+		return boardDao.deleteById(id);
 	}
 }
