@@ -4,25 +4,68 @@
 <%@ include file="../layout/header.jsp"%>
 
 <div class="container">
-	<c:choose>
-		<c:when test="${board!=null}">
+	<div class="card">
+		<div class="card-body">
+			<h6 class="m-2">
+				작성자 : <i>${detailRespDto.username}</i>
+			</h6>
+			<hr />
+			<h2 class="d-flex justify-content-center">
+				<b>${detailRespDto.title}</b>
+			</h2>
+			<hr />
+			<div class="d-flex justify-content-end">
+				<div>조회수 : ${detailRespDto.readCount}</div>
+			</div>
 			<div class="card">
-				<div class="card-body">
-					<h2 class="d-flex justify-content-center">${board.title}</h2>
-					<hr />
-					<div class="d-flex justify-content-around">
-						<div>조회수 : ${board.readCount}</div>
-						<div>작성일 : ${board.createDate}</div>
+				<p>${detailRespDto.content}</p>
+			</div>
+			<div class="d-flex justify-content-end">
+				<div>작성일 : ${detailRespDto.createDate}</div>
+			</div>
+		</div>
+	</div>
+	<!-- 댓글 박스 -->
+	<div class="row bootstrap snippets">
+		<div class="col-md-12">
+			<div class="comment-wrapper">
+				<div class="panel panel-info">
+					<div class="panel-heading m-2">
+						<b>Comment</b>
 					</div>
-					<div>
-						<p>${board.content}</p>
+					<div class="panel-body">
+						<textarea id="reply__write__form" class="form-control"
+							placeholder="write a comment..." rows="2"></textarea>
+						<br>
+						<button onclick="#" class="btn btn-primary pull-right">댓글쓰기</button>
+						<div class="clearfix"></div>
+						<hr />
+
+						<!-- 댓글 리스트 시작-->
+						<ul id="reply__list" class="media-list">
+
+							<!-- 댓글 아이템 -->
+							<li id="reply-1" class="media">
+								<div class="media-body">
+									<strong class="text-primary">홍길동</strong>
+									<p>댓글입니다.</p>
+								</div>
+								<div class="m-2">
+
+									<i onclick="#" class="material-icons">delete</i>
+
+								</div>
+							</li>
+
+						</ul>
+						<!-- 댓글 리스트 끝-->
 					</div>
 				</div>
 			</div>
-		</c:when>
-		<c:otherwise></c:otherwise>
-	</c:choose>
 
+		</div>
+	</div>
+	<!-- 댓글 박스 끝 -->
 </div>
 
 </body>

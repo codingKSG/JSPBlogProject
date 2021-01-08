@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cos.blog.config.DB;
+import com.cos.blog.domain.board.dto.DetailRespDto;
 import com.cos.blog.domain.board.dto.SaveReqDto;
 
 public class BoardDao {
@@ -32,6 +33,26 @@ public class BoardDao {
 			e.printStackTrace();
 		} finally {
 			DB.close(conn, pstmt);
+		}
+		return -1;
+	}
+	
+	public int count() {
+		String sql = "SELECT COUNT(*) FROM board";
+		Connection conn = DB.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DB.close(conn, pstmt, rs);
 		}
 		return -1;
 	}
@@ -73,11 +94,28 @@ public class BoardDao {
 		return null;
 	}
 	
-	public Board findOne(int id) {
+	public void updateReadCount(int id) {
+		String sql = "update board set readCount=readCount+1 where id = ?";
+		Connection conn = DB.getConnection();
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DB.close(conn, pstmt);
+		}
+	}
+	
+	public DetailRespDto findById(int id) {
 		// SELECT해서 Board 객체를 컬렉션에 담아서 리턴
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT id, userId, title, content, readCount, createDate");
-		sb.append(" FROM board WHERE id = ?");
+		sb.append("SELECT b.id, b.title, b.content, b.readCount, b.createDate, u.username");
+		sb.append(" FROM board b INNER JOIN user u ON b.userId = u.id WHERE b.id = ?");
 		String sql = sb.toString();
 		Connection conn = DB.getConnection();
 		PreparedStatement pstmt = null;
@@ -89,16 +127,16 @@ public class BoardDao {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				Board board = Board.builder()
-						.id(rs.getInt("id"))
-						.userId(rs.getInt("userId"))
-						.title(rs.getString("title"))
-						.content(rs.getString("content"))
-						.readCount(rs.getInt("readCount"))
-						.createDate(rs.getTimestamp("createDate"))
+				DetailRespDto detailRespDto = DetailRespDto.builder()
+						.id(rs.getInt("b.id"))
+						.title(rs.getString("b.title"))
+						.content(rs.getString("b.content"))
+						.readCount(rs.getInt("b.readCount"))
+						.createDate(rs.getTimestamp("b.createDate"))
+						.username(rs.getString("u.username"))
 						.build();
 
-				return board;
+				return detailRespDto;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
