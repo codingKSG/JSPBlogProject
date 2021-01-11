@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import com.cos.blog.domain.board.Board;
 import com.cos.blog.domain.board.dto.DetailRespDto;
 import com.cos.blog.domain.board.dto.SaveReqDto;
+import com.cos.blog.domain.board.dto.UpdateReqDto;
 import com.cos.blog.domain.reply.dto.FindAllReqDto;
 import com.cos.blog.domain.board.dto.DeleteReqDto;
 import com.cos.blog.domain.board.dto.DeleteRespDto;
@@ -151,6 +152,32 @@ public class BoardController extends HttpServlet {
 			RequestDispatcher dis = request.getRequestDispatcher("board/list.jsp");
 			dis.forward(request, response);
 			
+		} else if(cmd.equals("updateForm")) {
+			int id = Integer.parseInt(request.getParameter("id"));
+			DetailRespDto detailRespDto = boardService.상세보기(id);
+			request.setAttribute("detailRespDto", detailRespDto);
+			RequestDispatcher dis = request.getRequestDispatcher("board/updateForm.jsp");
+			dis.forward(request, response);
+		} else if(cmd.equals("update")) {
+			int id = Integer.parseInt(request.getParameter("id"));
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+
+			System.out.println(id + ", "+ title+ ", "+content);
+			UpdateReqDto updateReqDto = UpdateReqDto.builder()
+					.id(id)
+					.title(title)
+					.content(content)
+					.build();
+			
+			int result = boardService.글수정(updateReqDto);
+			
+			if (result == 1) { // 정상
+				
+				response.sendRedirect("/blog/board?cmd=detail&id="+id);
+			} else {
+				Script.back(response, "글 수정에 실패하였습니다.");
+			}
 		}
 	}
 }

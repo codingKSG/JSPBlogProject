@@ -6,6 +6,8 @@
 <div class="container">
 
 	<c:if test="${detailRespDto.userId == sessionScope.principal.id}">
+		<a href="/blog/board?cmd=updateForm&id=${detailRespDto.id}"
+			class="btn btn-warning">수정</a>
 		<button type="button" class="btn btn-danger"
 			onclick="deleteById(${detailRespDto.id})">삭제</button>
 	</c:if>

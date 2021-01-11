@@ -3,12 +3,14 @@ package com.cos.blog.domain.board;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.cos.blog.config.DB;
 import com.cos.blog.domain.board.dto.DetailRespDto;
 import com.cos.blog.domain.board.dto.SaveReqDto;
+import com.cos.blog.domain.board.dto.UpdateReqDto;
 
 public class BoardDao {
 
@@ -56,7 +58,7 @@ public class BoardDao {
 		}
 		return -1;
 	}
-	
+
 	public int count(String keyword) {
 		String sql = "SELECT COUNT(*) FROM board WHERE title like ?";
 		Connection conn = DB.getConnection();
@@ -64,7 +66,7 @@ public class BoardDao {
 		ResultSet rs = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "%"+keyword+"%");
+			pstmt.setString(1, "%" + keyword + "%");
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
@@ -109,7 +111,7 @@ public class BoardDao {
 		}
 		return null;
 	}
-	
+
 	public List<Board> findByKeyword(String keyword, int page) {
 		// SELECT해서 Board 객체를 컬렉션에 담아서 리턴
 		List<Board> boards = new ArrayList<>();
@@ -193,7 +195,7 @@ public class BoardDao {
 		}
 		return null;
 	}
-	
+
 	public int deleteById(int id) {
 		String sql = "DELETE FROM board where id = ?";
 		Connection conn = DB.getConnection();
@@ -211,6 +213,30 @@ public class BoardDao {
 		} finally {
 			DB.close(conn, pstmt);
 		}
+		return -1;
+	}
+
+	public int update(UpdateReqDto updateReqDto) {
+
+		String sql = "UPDATE board SET title = ?, content = ? WHERE id = ?";
+		Connection conn = DB.getConnection();
+		PreparedStatement pstmt = null;
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, updateReqDto.getTitle());
+			pstmt.setString(2, updateReqDto.getContent());
+			pstmt.setInt(3, updateReqDto.getId());
+
+			int result = pstmt.executeUpdate();
+
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally { // 무조건 실행
+			DB.close(conn, pstmt);
+		}
+
 		return -1;
 	}
 }
