@@ -75,9 +75,19 @@ public class BoardController extends HttpServlet {
 			}
 		} else if (cmd.equals("list")) {
 			// request에 담고 RequestDispatcher만들어서 이동
+			String keyword = request.getParameter("keyword");
 			int page = Integer.parseInt(request.getParameter("page"));
-			List<Board> boards = boardService.글목록보기(page);
-			int boardCount = boardService.글개수();
+			List<Board> boards;
+			int boardCount;
+			if(keyword == null) {
+				boards = boardService.글목록보기(page);
+				boardCount = boardService.글개수();
+			} else {
+				boards = boardService.글검색(keyword, page);
+				boardCount = boardService.글개수(keyword);
+			}			
+			
+			
 			int lastPage = (boardCount - 1) / 4;
 			double currentPosition = (double) page / (lastPage) * 100;
 
@@ -124,6 +134,23 @@ public class BoardController extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			out.print(respData);
 			out.flush();
+		} else if(cmd.equals("search")) {
+			String keyword = request.getParameter("keyword");
+			int page = Integer.parseInt(request.getParameter("page"));
+			
+			List<Board> boards = boardService.글검색(keyword, page);
+			request.setAttribute("boards", boards);
+			
+			int boardCount = boardService.글개수(keyword);
+			int lastPage = (boardCount - 1) / 4;
+			double currentPosition = (double) page / (lastPage) * 100;
+
+			request.setAttribute("lastPage", lastPage);
+			request.setAttribute("currentPosition", currentPosition);
+
+			RequestDispatcher dis = request.getRequestDispatcher("board/list.jsp");
+			dis.forward(request, response);
+			
 		}
 	}
 }

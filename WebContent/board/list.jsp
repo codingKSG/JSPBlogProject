@@ -7,9 +7,9 @@
 	<div class="m-2">
 		<form class="form-inline d-flex justify-content-end"
 			action="/blog/board">
-			<input type="hidden" name="cmd" value="search" />
-			<input type="hidden" name="page" value="0" />
-			<input type="text" name="keyword" class="form-control mr-sm-2" placeholder="Search">
+			<input type="hidden" name="cmd" value="search" /> <input
+				type="hidden" name="page" value="0" /> <input type="text"
+				name="keyword" class="form-control mr-sm-2" placeholder="Search">
 			<button class="btn btn-primary m-1">검색</button>
 
 		</form>
@@ -35,13 +35,28 @@
 	<br />
 	<ul class="pagination justify-content-center">
 		<c:choose>
+			<c:when test="${empty param.keyword}">
+				<c:set var="pagePrev"
+					value="/blog/board?cmd=list&page=${param.page-1}"></c:set>
+				<c:set var="pageNext"
+					value="/blog/board?cmd=list&page=${param.page+1}"></c:set>
+			</c:when>
+			<c:otherwise>
+				<c:set var="pagePrev"
+					value="/blog/board?cmd=list&page=${param.page-1}&keyword=${param.keyword}"></c:set>
+				<c:set var="pageNext"
+					value="/blog/board?cmd=list&page=${param.page+1}&keyword=${param.keyword}"></c:set>
+			</c:otherwise>
+		</c:choose>
+
+		<c:choose>
 			<c:when test="${param.page==0}">
 				<li class="page-item disabled"><a class="page-link" href="#">이전</a></li>
 			</c:when>
 
 			<c:otherwise>
 				<li class="page-item"><a class="page-link"
-					href="/blog/board?cmd=list&page=${param.page-1}">이전</a></li>
+					href="${pageScope.pagePrev}">이전</a></li>
 			</c:otherwise>
 		</c:choose>
 
@@ -52,7 +67,7 @@
 
 			<c:otherwise>
 				<li class="page-item"><a class="page-link"
-					href="/blog/board?cmd=list&page=${param.page+1}">다음</a></li>
+					href="${pageScope.pageNext}">다음</a></li>
 			</c:otherwise>
 		</c:choose>
 	</ul>
