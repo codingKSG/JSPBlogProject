@@ -1,16 +1,23 @@
 package com.cos.blog.web;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.cos.blog.domain.dto.CommonRespDto;
 import com.cos.blog.domain.reply.Reply;
+import com.cos.blog.domain.reply.dto.FindAllReqDto;
 import com.cos.blog.domain.reply.dto.SaveReqDto;
 import com.cos.blog.service.ReplyService;
 import com.cos.blog.util.Script;
+import com.google.gson.Gson;
 
 //http://localhost:8080/blog/reply
 @WebServlet("/reply")
@@ -39,24 +46,21 @@ public class ReplyController extends HttpServlet {
 		// http://localhost:8080/blog/reply?cmd=loginForm
 		
 		if(cmd.equals("save")) {
-			int userId = Integer.parseInt(request.getParameter("userId"));
-			int boardId = Integer.parseInt(request.getParameter("boardId"));
-			String content = request.getParameter("content");
-			
-			SaveReqDto saveReqDto = SaveReqDto.builder()
-					.userId(userId)
-					.boardId(boardId)
-					.content(content)
-					.build();
-					
+						
+			BufferedReader br = request.getReader();
+			String reqData = br.readLine();
+			Gson gson = new Gson();
+			SaveReqDto saveReqDto = gson.fromJson(reqData, SaveReqDto.class);
+			System.out.println("saveReqDto : " + saveReqDto);
 			
 			int result = replyService.´ñ±Û¾²±â(saveReqDto);
 			
-			if(result == 1) {
-				response.sendRedirect("board?cmd=detail&id="+boardId);
-			} else {
-				Script.back(response, "´ñ±Û¾²±â ½ÇÆÐ");
-			}
+			CommonRespDto commonRespDto = new CommonRespDto<>();
+			commonRespDto.setStatusCode(result);
+			
+			String respData = gson.toJson(commonRespDto);
+			System.out.println("respData : " + respData);
+			Script.respData(response, respData);
 		}
 	}
 }

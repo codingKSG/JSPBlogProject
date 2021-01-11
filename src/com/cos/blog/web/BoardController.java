@@ -16,10 +16,12 @@ import javax.servlet.http.HttpSession;
 import com.cos.blog.domain.board.Board;
 import com.cos.blog.domain.board.dto.DetailRespDto;
 import com.cos.blog.domain.board.dto.SaveReqDto;
+import com.cos.blog.domain.reply.dto.FindAllReqDto;
 import com.cos.blog.domain.board.dto.DeleteReqDto;
 import com.cos.blog.domain.board.dto.DeleteRespDto;
 import com.cos.blog.domain.user.User;
 import com.cos.blog.service.BoardService;
+import com.cos.blog.service.ReplyService;
 import com.cos.blog.util.Script;
 import com.google.gson.Gson;
 
@@ -46,6 +48,7 @@ public class BoardController extends HttpServlet {
 			throws ServletException, IOException {
 		String cmd = request.getParameter("cmd");
 		BoardService boardService = new BoardService();
+		ReplyService replyService = new ReplyService();
 		HttpSession session = request.getSession();
 		// http://localhost:8000/blog/board?cmd=saveForm
 
@@ -85,10 +88,14 @@ public class BoardController extends HttpServlet {
 			RequestDispatcher dis = request.getRequestDispatcher("board/list.jsp");
 			dis.forward(request, response);
 		} else if (cmd.equals("detail")) {
+			
 			int id = Integer.parseInt(request.getParameter("id"));
 			DetailRespDto detailRespDto = boardService.상세보기(id);
+			List<FindAllReqDto> replies = replyService.댓글(id);
 
 			request.setAttribute("detailRespDto", detailRespDto);
+			request.setAttribute("replies", replies);
+			System.out.println(replies);
 
 			RequestDispatcher dis = request.getRequestDispatcher("board/detail.jsp");
 			dis.forward(request, response);

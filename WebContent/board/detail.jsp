@@ -41,33 +41,30 @@
 						<b>Comment</b>
 					</div>
 					<div class="panel-body">
-						<form action="reply?cmd=save" method="post">
-							<input type="hidden" name="userId" value="${sessionScope.principal.id}" />
-							<input type="hidden" name="boardId" value="${detailRespDto.id}" />
-							<textarea id="reply__write__form" class="form-control"
-								placeholder="write a comment..." rows="2"></textarea>
-							<br>
+						<textarea id="content" id="reply__write__form"
+							class="form-control" placeholder="write a comment..." rows="2"></textarea>
+						<br>
+						<button
+							onclick="replySave(${sessionScope.principal.id}, ${detailRespDto.id})"
+							class="btn btn-primary pull-right">댓글쓰기</button>
 
-							<button onclick="#" class="btn btn-primary pull-right">댓글쓰기</button>
-						</form>
 						<div class="clearfix"></div>
 						<hr />
 
 						<!-- 댓글 리스트 시작-->
 						<ul id="reply__list" class="media-list">
-
 							<!-- 댓글 아이템 -->
-							<li id="reply-1" class="media">
-								<div class="media-body">
-									<strong class="text-primary">홍길동</strong>
-									<p>댓글입니다.</p>
-								</div>
-								<div class="m-2">
-
-									<i onclick="#" class="material-icons">delete</i>
-
-								</div>
-							</li>
+							<c:forEach var="replies" items="${replies}">
+								<li id="reply-${replies.id}" class="media">
+									<div class="media-body">
+										<strong class="text-primary">${replies.username}</strong>
+										<p>${replies.content}</p>
+									</div>
+									<div class="m-2">
+										<i onclick="#" class="material-icons">delete</i>
+									</div>
+								</li>
+							</c:forEach>
 
 						</ul>
 						<!-- 댓글 리스트 끝-->
@@ -81,7 +78,12 @@
 </div>
 
 <script>
+	function test(replies){
+		console.log(replies).val();
+	}
+
 	function deleteById(boardId){
+		
 	// 요청과 응답	을 json
 		var data = {
 			boardId: boardId
@@ -102,6 +104,40 @@
 			}
 		});
 	}
+
+	function replySave(replies, userId, boardId){
+
+		console.log(replies);
+		
+		function addLi(){
+			var newLi = document.createElement("li");
+			newLi.id = "reply-"
+			newLi.className ="media";
+		}
+		
+		var data = {
+			userId: userId,
+			boardId: boardId,
+			content: $("#content").val()
+		}
+		
+		$.ajax({
+			type:"post",
+			url:"/blog/reply?cmd=save",
+			data:JSON.stringify(data),
+			contentType:"application/json; charset=utf-8",
+			dataType:"json"								
+		}).done(function(result){
+			if(result.statusCode == 1){
+				$("#reply__list").prepend("<div>"+data.content+"</div>");
+
+				
+			} else {
+				alert("댓글쓰기 실패")
+			}
+		});
+	}
+
 </script>
 
 </body>
