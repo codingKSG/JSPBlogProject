@@ -95,7 +95,6 @@ public class BoardController extends HttpServlet {
 
 			request.setAttribute("detailRespDto", detailRespDto);
 			request.setAttribute("replies", replies);
-			System.out.println(replies);
 
 			RequestDispatcher dis = request.getRequestDispatcher("board/detail.jsp");
 			dis.forward(request, response);

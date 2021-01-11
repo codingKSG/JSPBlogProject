@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.cos.blog.domain.dto.CommonRespDto;
 import com.cos.blog.domain.reply.Reply;
 import com.cos.blog.domain.reply.dto.FindAllReqDto;
+import com.cos.blog.domain.reply.dto.FindByIdRespDto;
 import com.cos.blog.domain.reply.dto.SaveReqDto;
 import com.cos.blog.service.ReplyService;
 import com.cos.blog.util.Script;
@@ -55,8 +56,18 @@ public class ReplyController extends HttpServlet {
 			
 			int result = replyService.¥Ò±€æ≤±‚(saveReqDto);
 			
-			CommonRespDto commonRespDto = new CommonRespDto<>();
-			commonRespDto.setStatusCode(result);
+			CommonRespDto<FindByIdRespDto> commonRespDto = new CommonRespDto<>();
+			FindByIdRespDto findByIdRespDto = null;
+			findByIdRespDto = replyService.¥Ò±€√£±‚(result);
+			System.out.println(findByIdRespDto);
+			
+			if(result != -1) {
+				findByIdRespDto = replyService.¥Ò±€√£±‚(result);
+				commonRespDto.setStatusCode(1);
+				commonRespDto.setData(findByIdRespDto);
+			} else {
+				commonRespDto.setStatusCode(-1);
+			}
 			
 			String respData = gson.toJson(commonRespDto);
 			System.out.println("respData : " + respData);

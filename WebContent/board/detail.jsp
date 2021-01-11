@@ -54,11 +54,11 @@
 						<!-- 댓글 리스트 시작-->
 						<ul id="reply__list" class="media-list">
 							<!-- 댓글 아이템 -->
-							<c:forEach var="replies" items="${replies}">
-								<li id="reply-${replies.id}" class="media">
+							<c:forEach var="reply" items="${replies}">
+								<li id="reply-${reply.id}" class="media">
 									<div class="media-body">
-										<strong class="text-primary">${replies.username}</strong>
-										<p>${replies.content}</p>
+										<strong class="text-primary">${reply.username}</strong>
+										<p>${reply.content}</p>
 									</div>
 									<div class="m-2">
 										<i onclick="#" class="material-icons">delete</i>
@@ -77,68 +77,7 @@
 	<!-- 댓글 박스 끝 -->
 </div>
 
-<script>
-	function test(replies){
-		console.log(replies).val();
-	}
-
-	function deleteById(boardId){
-		
-	// 요청과 응답	을 json
-		var data = {
-			boardId: boardId
-		}
-		
-		$.ajax({
-			type: "post",
-			url: "/blog/board?cmd=delete",
-			data: JSON.stringify(data),
-			contentType: "application/json; charset=utf-8",
-			dataType: "json"
-		}).done(function(result){
-			console.log(result);
-			if(result.status == "ok"){
-				location.href="index.jsp";
-			}else{
-				alert("삭제에 실패하였습니다.");
-			}
-		});
-	}
-
-	function replySave(replies, userId, boardId){
-
-		console.log(replies);
-		
-		function addLi(){
-			var newLi = document.createElement("li");
-			newLi.id = "reply-"
-			newLi.className ="media";
-		}
-		
-		var data = {
-			userId: userId,
-			boardId: boardId,
-			content: $("#content").val()
-		}
-		
-		$.ajax({
-			type:"post",
-			url:"/blog/reply?cmd=save",
-			data:JSON.stringify(data),
-			contentType:"application/json; charset=utf-8",
-			dataType:"json"								
-		}).done(function(result){
-			if(result.statusCode == 1){
-				$("#reply__list").prepend("<div>"+data.content+"</div>");
-
-				
-			} else {
-				alert("댓글쓰기 실패")
-			}
-		});
-	}
-
-</script>
+<script src="/blog/js/boardDetail.js"></script>
 
 </body>
 </html>
