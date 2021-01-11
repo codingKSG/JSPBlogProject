@@ -29,4 +29,8 @@ public class ReplyService {
 		
 		return replyDao.findById(id);
 	}
+	
+	public int ¥Ò±€ªË¡¶(int id) {
+		return replyDao.deleteById(id);
+	}
 }

@@ -123,4 +123,24 @@ public class ReplyDao {
 		}
 		return null;
 	}
+	
+	public int deleteById(int id) {
+		String sql = "DELETE FROM reply where id = ?";
+		Connection conn = DB.getConnection();
+		PreparedStatement pstmt = null;
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+
+			int result = pstmt.executeUpdate();
+
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DB.close(conn, pstmt);
+		}
+		return -1;
+	}
 }

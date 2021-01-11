@@ -39,6 +39,8 @@ function replySave(userId, boardId) {
 		if (result.statusCode == 1) {
 			console.log(result);
 			addReply(result.data);
+			$("#content").val("");
+			/*location.reload();*/
 		} else {
 			alert("댓글쓰기 실패")
 		}
@@ -56,4 +58,20 @@ function addReply(data){
 	replyItem += `<i onclick="#" class="material-icons">delete</i></div></li>`;
 	
 	$("#reply__list").prepend(replyItem);
+}
+
+function deleteReply(id){
+	// 세션의 id와 reply의 userId를 비교해서 같을때 만
+	$.ajax({
+		type: "post",
+		url: "/blog/reply?cmd=delete&id="+id,
+		dataType: "json"
+	}).done(function(result) {
+		if (result.statusCode == 1) {
+			console.log(result);
+			$("#reply-"+id).remove();
+		} else {
+			alert("댓글쓰기 실패")
+		}
+	});
 }

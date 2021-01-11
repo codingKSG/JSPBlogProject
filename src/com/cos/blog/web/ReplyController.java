@@ -72,6 +72,18 @@ public class ReplyController extends HttpServlet {
 			String respData = gson.toJson(commonRespDto);
 			System.out.println("respData : " + respData);
 			Script.respData(response, respData);
+		} else if(cmd.equals("delete")){
+			int id = Integer.parseInt(request.getParameter("id"));
+			int result = replyService.¥Ò±€ªË¡¶(id);
+			
+			CommonRespDto commonRespDto = new CommonRespDto<>();
+			commonRespDto.setStatusCode(result); // 1, -1
+			
+			Gson gson = new Gson();
+			String jsonData = gson.toJson(commonRespDto);
+			// {"statusCode":1}
+			Script.respData(response, jsonData);
+			
 		}
 	}
 }
