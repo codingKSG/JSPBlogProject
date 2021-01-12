@@ -1,18 +1,18 @@
-# JSP ╨М╥н╠в га╥на╖ф╝  
+# JSP К╦■К║°Й╥╦ М■└К║°Л═²М┼╦  
 
-## х╞╟Ф  
+## М≥≤Й╡╫  
 
 - windows
 - jdk1.8
-- tomdat9.0
+- tomcat9.0
 - sts tool
 - mysql8.0
 - postman
 - lombok
-- gson (jsonфд╫л)
-- юндз╣Ы utf-8  
+- gson (jsonМ▄▄Л▀╠)
+- Л²╦Л╫■К■╘ utf-8  
 
-## MySQL ╣╔юлем ╨ёюл╫╨ ╩Щ╪╨ ╧в ╩Г©Кюз ╩Щ╪╨
+## MySQL К█╟Л²╢М└╟ К╡═Л²╢Л┼╓ Л┐²Л└╠ К╟▐ Л┌╛Л ╘Л·░ Л┐²Л└╠
 
 ```sql
 CREATE USER 'bloguser' @'%' IDENTIFIED BY 'bitc5600';
@@ -20,7 +20,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'bloguser' @'%';
 CREATE DATABASE blog;
 ```
 
-## MySQL евюл╨М ╩Щ╪╨
+## MySQL М┘▄Л²╢К╦■ Л┐²Л└╠
 
 ```sql
 CREATE TABLE user(

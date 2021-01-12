@@ -20,7 +20,7 @@ public class ForbiddenUrlConfig implements Filter{
 		HttpServletRequest request = (HttpServletRequest)req;
 		HttpServletResponse response = (HttpServletResponse)resp;
 		
-		System.out.println("ForbiddenUrlConfig Á¢±Ù");
+		System.out.println("ForbiddenUrlConfig ì ‘ê·¼");
 		System.out.println(request.getRequestURL());
 		System.out.println(request.getRequestURI());
 		
@@ -28,7 +28,7 @@ public class ForbiddenUrlConfig implements Filter{
 			chain.doFilter(request, response);
 		} else {
 			PrintWriter out = response.getWriter();
-			out.print("Àß¸øµÈ Á¢±ÙÀÔ´Ï´Ù.");
+			out.print("ì˜ëª»ëœ ì ‘ê·¼ì…ë‹ˆë‹¤.");
 			out.flush();
 		}
 	}

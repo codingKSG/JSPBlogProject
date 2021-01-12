@@ -14,23 +14,23 @@ public class ReplyService {
 		replyDao = new ReplyDao();
 	}
 	
-	public int ´ñ±Û¾²±â(SaveReqDto saveReqDto) {		
+	public int ëŒ“ê¸€ì“°ê¸°(SaveReqDto saveReqDto) {		
 		int result = replyDao.save(saveReqDto);
 		
 		return result;
 	}
 	
-	public List<FindAllReqDto> ´ñ±Û(int boardId){
+	public List<FindAllReqDto> ëŒ“ê¸€(int boardId){
 		
 		return replyDao.findAllByBoardId(boardId);
 	}
 	
-	public FindByIdRespDto ´ñ±ÛÃ£±â(int id) {
+	public FindByIdRespDto ëŒ“ê¸€ì°¾ê¸°(int id) {
 		
 		return replyDao.findById(id);
 	}
 	
-	public int ´ñ±Û»èÁ¦(int id) {
+	public int ëŒ“ê¸€ì‚­ì œ(int id) {
 		return replyDao.deleteById(id);
 	}
 }

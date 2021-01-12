@@ -45,23 +45,23 @@ public class UserController extends HttpServlet {
 		// http://localhost:8080/blog/user?cmd=loginForm
 		
 		if(cmd.equals("loginForm")) {
-			// ¼­ºñ½º È£Ãâ
+			// ì„œë¹„ìŠ¤ í˜¸ì¶œ
 			RequestDispatcher dis = request.getRequestDispatcher("user/loginForm.jsp");
 			dis.forward(request, response);
 		} else if(cmd.equals("login")) {
-			// ¼­ºñ½º È£Ãâ
+			// ì„œë¹„ìŠ¤ í˜¸ì¶œ
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
 			LoginReqDto dto = new LoginReqDto();
 			dto.setUsername(username);
 			dto.setPassword(password);
-			User userEntity = userService.·Î±×ÀÎ(dto);
+			User userEntity = userService.ë¡œê·¸ì¸(dto);
 			 if(userEntity != null) {
 				 HttpSession session = request.getSession();
 				 session.setAttribute("principal", userEntity);
 				 response.sendRedirect("index.jsp");
 			 } else {
-				 Script.back(response, "·Î±×ÀÎ ½ÇÆĞ");
+				 Script.back(response, "ë¡œê·¸ì¸ ì‹¤íŒ¨");
 			 }
 			
 		} else if(cmd.equals("joinForm")) {
@@ -77,19 +77,19 @@ public class UserController extends HttpServlet {
 			dto.setPassword(password);
 			dto.setEmail(email);
 			dto.setAddress(address);
-			int result = userService.È¸¿ø°¡ÀÔ(dto);
+			int result = userService.íšŒì›ê°€ì…(dto);
 			
 			if(result == 1) {
 				response.sendRedirect("index.jsp");
 			} else {
-				Script.back(response, "È¸¿ø°¡ÀÔ ½ÇÆĞ");
+				Script.back(response, "íšŒì›ê°€ì… ì‹¤íŒ¨");
 			}
 		} else if(cmd.equals("usernameCheck")) {
 			BufferedReader br = request.getReader();
 			String username = br.readLine();
 			System.out.println(username);
 			
-			int result = userService.À¯Àú³×ÀÓÁßº¹Ã¼Å©(username);
+			int result = userService.ìœ ì €ë„¤ì„ì¤‘ë³µì²´í¬(username);
 			PrintWriter out = response.getWriter();
 			if(result == 1) {
 				out.print("ok");

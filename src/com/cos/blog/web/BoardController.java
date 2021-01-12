@@ -68,24 +68,24 @@ public class BoardController extends HttpServlet {
 			String content = request.getParameter("content");
 
 			SaveReqDto dto = SaveReqDto.builder().userId(userId).title(title).content(content).build();
-			int result = boardService.±Û¾²±â(dto);
-			if (result == 1) { // Á¤»ó
+			int result = boardService.ê¸€ì“°ê¸°(dto);
+			if (result == 1) { // ì •ìƒ
 				response.sendRedirect("index.jsp");
 			} else {
-				Script.back(response, "±Û¾²±â ½ÇÆĞ");
+				Script.back(response, "ê¸€ì“°ê¸° ì‹¤íŒ¨");
 			}
 		} else if (cmd.equals("list")) {
-			// request¿¡ ´ã°í RequestDispatcher¸¸µé¾î¼­ ÀÌµ¿
+			// requestì— ë‹´ê³  RequestDispatcherë§Œë“¤ì–´ì„œ ì´ë™
 			String keyword = request.getParameter("keyword");
 			int page = Integer.parseInt(request.getParameter("page"));
 			List<Board> boards;
 			int boardCount;
 			if(keyword == null) {
-				boards = boardService.±Û¸ñ·Ïº¸±â(page);
-				boardCount = boardService.±Û°³¼ö();
+				boards = boardService.ê¸€ëª©ë¡ë³´ê¸°(page);
+				boardCount = boardService.ê¸€ê°œìˆ˜();
 			} else {
-				boards = boardService.±Û°Ë»ö(keyword, page);
-				boardCount = boardService.±Û°³¼ö(keyword);
+				boards = boardService.ê¸€ê²€ìƒ‰(keyword, page);
+				boardCount = boardService.ê¸€ê°œìˆ˜(keyword);
 			}			
 			
 			
@@ -101,8 +101,8 @@ public class BoardController extends HttpServlet {
 		} else if (cmd.equals("detail")) {
 			
 			int id = Integer.parseInt(request.getParameter("id"));
-			DetailRespDto detailRespDto = boardService.»ó¼¼º¸±â(id);
-			List<FindAllReqDto> replies = replyService.´ñ±Û(id);
+			DetailRespDto detailRespDto = boardService.ìƒì„¸ë³´ê¸°(id);
+			List<FindAllReqDto> replies = replyService.ëŒ“ê¸€(id);
 
 			request.setAttribute("detailRespDto", detailRespDto);
 			request.setAttribute("replies", replies);
@@ -111,7 +111,7 @@ public class BoardController extends HttpServlet {
 			dis.forward(request, response);
 		} else if(cmd.equals("delete")) {
 
-			// 1. ¿äÃ» ¹ŞÀº json µ¥ÀÌÅÍ¸¦ ÀÚ¹Ù ¿ÀºêÁ§Æ®·Î ÆÄ½Ì
+			// 1. ìš”ì²­ ë°›ì€ json ë°ì´í„°ë¥¼ ìë°” ì˜¤ë¸Œì íŠ¸ë¡œ íŒŒì‹±
 			BufferedReader br = request.getReader();
 			String data = br.readLine();
 			
@@ -120,10 +120,10 @@ public class BoardController extends HttpServlet {
 			Gson gson = new Gson();
 			DeleteReqDto dto = gson.fromJson(data, DeleteReqDto.class);
 
-			// 2. DB¿¡¼­ id°ªÀ¸·Î ±Û »èÁ¦
-			int result = boardService.°Ô½Ã±Û»èÁ¦(dto.getBoardId());
+			// 2. DBì—ì„œ idê°’ìœ¼ë¡œ ê¸€ ì‚­ì œ
+			int result = boardService.ê²Œì‹œê¸€ì‚­ì œ(dto.getBoardId());
 
-			// 3. ÀÀ´äÇÒ json µ¥ÀÌÅÍ¸¦ »ı¼º
+			// 3. ì‘ë‹µí•  json ë°ì´í„°ë¥¼ ìƒì„±
 			DeleteRespDto respDto = new DeleteRespDto();
 			if(result == 1) {
 				respDto.setStatus("ok");
@@ -139,10 +139,10 @@ public class BoardController extends HttpServlet {
 			String keyword = request.getParameter("keyword");
 			int page = Integer.parseInt(request.getParameter("page"));
 			
-			List<Board> boards = boardService.±Û°Ë»ö(keyword, page);
+			List<Board> boards = boardService.ê¸€ê²€ìƒ‰(keyword, page);
 			request.setAttribute("boards", boards);
 			
-			int boardCount = boardService.±Û°³¼ö(keyword);
+			int boardCount = boardService.ê¸€ê°œìˆ˜(keyword);
 			int lastPage = (boardCount - 1) / 4;
 			double currentPosition = (double) page / (lastPage) * 100;
 
@@ -154,7 +154,7 @@ public class BoardController extends HttpServlet {
 			
 		} else if(cmd.equals("updateForm")) {
 			int id = Integer.parseInt(request.getParameter("id"));
-			DetailRespDto detailRespDto = boardService.»ó¼¼º¸±â(id);
+			DetailRespDto detailRespDto = boardService.ìƒì„¸ë³´ê¸°(id);
 			request.setAttribute("detailRespDto", detailRespDto);
 			RequestDispatcher dis = request.getRequestDispatcher("board/updateForm.jsp");
 			dis.forward(request, response);
@@ -170,13 +170,13 @@ public class BoardController extends HttpServlet {
 					.content(content)
 					.build();
 			
-			int result = boardService.±Û¼öÁ¤(updateReqDto);
+			int result = boardService.ê¸€ìˆ˜ì •(updateReqDto);
 			
-			if (result == 1) { // Á¤»ó
+			if (result == 1) { // ì •ìƒ
 				
 				response.sendRedirect("/blog/board?cmd=detail&id="+id);
 			} else {
-				Script.back(response, "±Û ¼öÁ¤¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù.");
+				Script.back(response, "ê¸€ ìˆ˜ì •ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
 			}
 		}
 	}

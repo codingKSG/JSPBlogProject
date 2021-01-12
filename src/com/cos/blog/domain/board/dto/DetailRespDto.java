@@ -12,7 +12,7 @@ public class DetailRespDto {
 	private int userId;
 	private String title;
 	private String content;
-	private int readCount; // Á¶È¸¼ö µğÆúÆ® °ª 0
+	private int readCount; // ì¡°íšŒìˆ˜ ë””í´íŠ¸ ê°’ 0
 	private Timestamp createDate;
 	private String username;
 	

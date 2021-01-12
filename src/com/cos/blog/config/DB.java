@@ -16,10 +16,10 @@ public class DB {
 			Context envContext  = (Context)initContext.lookup("java:/comp/env");
 			DataSource ds = (DataSource)envContext.lookup("jdbc/TestDB");
 			Connection conn = ds.getConnection();
-			System.out.println("DB¿¬°á ¼º°ø");
+			System.out.println("DBì—°ê²° ì„±ê³µ");
 			return conn;
 		} catch (Exception e) {
-			System.out.println("DB¿¬°á ½ÇÆÐ");
+			System.out.println("DBì—°ê²° ì‹¤íŒ¨");
 			e.printStackTrace();
 		}
 		return null;

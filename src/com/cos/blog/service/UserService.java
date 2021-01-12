@@ -12,24 +12,24 @@ public class UserService {
 	public UserService() {
 		userDao = new UserDao();
 	}
-	// È¸¿ø°¡ÀÔ, ·Î±×ÀÎ, Á¤º¸¼öÁ¤, ¾ÆÀÌµğÁßº¹Ã¼Å©
+	// íšŒì›ê°€ì…, ë¡œê·¸ì¸, ì •ë³´ìˆ˜ì •, ì•„ì´ë””ì¤‘ë³µì²´í¬
 	
-	public int È¸¿ø°¡ÀÔ(JoinReqDto dto) {
+	public int íšŒì›ê°€ì…(JoinReqDto dto) {
 		int result = userDao.save(dto);
 		return result;
 	}
 	
-	public User ·Î±×ÀÎ(LoginReqDto dto) {
+	public User ë¡œê·¸ì¸(LoginReqDto dto) {
 		
 		return userDao.findByUsernameAndPassword(dto);
 	}
 	
-	public int Á¤º¸¼öÁ¤(UpdateReqDto dto) {
+	public int ì •ë³´ìˆ˜ì •(UpdateReqDto dto) {
 		
 		return -1;
 	}
 	
-	public int À¯Àú³×ÀÓÁßº¹Ã¼Å©(String username) {
+	public int ìœ ì €ë„¤ì„ì¤‘ë³µì²´í¬(String username) {
 		int result = userDao.findByUsername(username);
 		return result;
 	}

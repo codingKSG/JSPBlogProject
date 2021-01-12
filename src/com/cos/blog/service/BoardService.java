@@ -16,16 +16,16 @@ public class BoardService {
 		boardDao = new BoardDao();
 	}
 
-	public int ±Û¾²±â(SaveReqDto dto) {
+	public int ê¸€ì“°ê¸°(SaveReqDto dto) {
 		return boardDao.save(dto);
 	}
 
-	public List<Board> ±Û¸ñ·Ïº¸±â(int page) {
+	public List<Board> ê¸€ëª©ë¡ë³´ê¸°(int page) {
 
 		return boardDao.findAll(page);
 	}
 
-	public DetailRespDto »ó¼¼º¸±â(int id) {
+	public DetailRespDto ìƒì„¸ë³´ê¸°(int id) {
 
 		int result = boardDao.updateReadCount(id);
 
@@ -36,26 +36,26 @@ public class BoardService {
 		}
 	}
 
-	public int ±Û°³¼ö() {
+	public int ê¸€ê°œìˆ˜() {
 
 		return boardDao.count();
 	}
 
-	public int ±Û°³¼ö(String keyword) {
+	public int ê¸€ê°œìˆ˜(String keyword) {
 
 		return boardDao.count(keyword);
 	}
 
-	public int °Ô½Ã±Û»èÁ¦(int id) {
+	public int ê²Œì‹œê¸€ì‚­ì œ(int id) {
 
 		return boardDao.deleteById(id);
 	}
 
-	public List<Board> ±Û°Ë»ö(String keyword, int page) {
+	public List<Board> ê¸€ê²€ìƒ‰(String keyword, int page) {
 		return boardDao.findByKeyword(keyword, page);
 	}
 	
-	public int ±Û¼öÁ¤(UpdateReqDto updateReqDto) {
+	public int ê¸€ìˆ˜ì •(UpdateReqDto updateReqDto) {
 		
 		return boardDao.update(updateReqDto);
 	}

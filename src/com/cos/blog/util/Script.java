@@ -11,7 +11,7 @@ public class Script {
 		try {
 			out = response.getWriter();
 			out.print(jsonData);
-			out.flush(); // ¹öÆÛ ºñ¿ì±â
+			out.flush(); // ë²„í¼ ë¹„ìš°ê¸°
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -25,7 +25,7 @@ public class Script {
 			out.println("alert('" + msg + "');");
 			out.println("history.back();");
 			out.println("</script>");
-			out.flush(); // ¹öÆÛ ºñ¿ì±â
+			out.flush(); // ë²„í¼ ë¹„ìš°ê¸°
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

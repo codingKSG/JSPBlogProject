@@ -3,7 +3,6 @@ package com.cos.blog.domain.board;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,7 @@ import com.cos.blog.domain.board.dto.UpdateReqDto;
 
 public class BoardDao {
 
-	public int save(SaveReqDto dto) { // ±Û¾²±â
+	public int save(SaveReqDto dto) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("INSERT INTO board(userId, title, content, createDate) ");
 		sb.append("VALUES(?, ?, ?, now())");
@@ -81,7 +80,7 @@ public class BoardDao {
 	}
 
 	public List<Board> findAll(int page) {
-		// SELECTÇØ¼­ Board °´Ã¼¸¦ ÄÃ·º¼Ç¿¡ ´ã¾Æ¼­ ¸®ÅÏ
+		// SELECTí•´ì„œ Board ê°ì²´ë¥¼ ì»¬ë ‰ì…˜ì— ë‹´ì•„ì„œ ë¦¬í„´
 		List<Board> boards = new ArrayList<>();
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT id, userId, title, content, readCount, createDate");
@@ -113,7 +112,7 @@ public class BoardDao {
 	}
 
 	public List<Board> findByKeyword(String keyword, int page) {
-		// SELECTÇØ¼­ Board °´Ã¼¸¦ ÄÃ·º¼Ç¿¡ ´ã¾Æ¼­ ¸®ÅÏ
+		// SELECTí•´ì„œ Board ê°ì²´ë¥¼ ì»¬ë ‰ì…˜ì— ë‹´ì•„ì„œ ë¦¬í„´
 		List<Board> boards = new ArrayList<>();
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT id, userId, title, content, readCount, createDate");
@@ -166,7 +165,7 @@ public class BoardDao {
 	}
 
 	public DetailRespDto findById(int id) {
-		// SELECTÇØ¼­ Board °´Ã¼¸¦ ÄÃ·º¼Ç¿¡ ´ã¾Æ¼­ ¸®ÅÏ
+		// SELECTí•´ì„œ Board ê°ì²´ë¥¼ ì»¬ë ‰ì…˜ì— ë‹´ì•„ì„œ ë¦¬í„´
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT b.id, b.userId, b.title, b.content, b.readCount, b.createDate, u.username");
 		sb.append(" FROM board b INNER JOIN user u ON b.userId = u.id WHERE b.id = ?");
@@ -233,7 +232,7 @@ public class BoardDao {
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally { // ¹«Á¶°Ç ½ÇÇà
+		} finally { // ë¬´ì¡°ê±´ ì‹¤í–‰
 			DB.close(conn, pstmt);
 		}
 

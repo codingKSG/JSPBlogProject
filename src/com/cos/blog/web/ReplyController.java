@@ -54,15 +54,15 @@ public class ReplyController extends HttpServlet {
 			SaveReqDto saveReqDto = gson.fromJson(reqData, SaveReqDto.class);
 			System.out.println("saveReqDto : " + saveReqDto);
 			
-			int result = replyService.´ñ±Û¾²±â(saveReqDto);
+			int result = replyService.ëŒ“ê¸€ì“°ê¸°(saveReqDto);
 			
 			CommonRespDto<FindByIdRespDto> commonRespDto = new CommonRespDto<>();
 			FindByIdRespDto findByIdRespDto = null;
-			findByIdRespDto = replyService.´ñ±ÛÃ£±â(result);
+			findByIdRespDto = replyService.ëŒ“ê¸€ì°¾ê¸°(result);
 			System.out.println(findByIdRespDto);
 			
 			if(result != -1) {
-				findByIdRespDto = replyService.´ñ±ÛÃ£±â(result);
+				findByIdRespDto = replyService.ëŒ“ê¸€ì°¾ê¸°(result);
 				commonRespDto.setStatusCode(1);
 				commonRespDto.setData(findByIdRespDto);
 			} else {
@@ -74,7 +74,7 @@ public class ReplyController extends HttpServlet {
 			Script.respData(response, respData);
 		} else if(cmd.equals("delete")){
 			int id = Integer.parseInt(request.getParameter("id"));
-			int result = replyService.´ñ±Û»èÁ¦(id);
+			int result = replyService.ëŒ“ê¸€ì‚­ì œ(id);
 			
 			CommonRespDto commonRespDto = new CommonRespDto<>();
 			commonRespDto.setStatusCode(result); // 1, -1

@@ -10,7 +10,7 @@ import com.cos.blog.domain.user.dto.LoginReqDto;
 
 public class UserDao {
 
-	public User findByUsernameAndPassword(LoginReqDto dto) { // È¸¿ø°¡ÀÔ		
+	public User findByUsernameAndPassword(LoginReqDto dto) { // íšŒì›ê°€ì…		
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT id, username, email, address FROM user ");
 		sb.append("WHERE username = ? And password = ?");
@@ -41,7 +41,7 @@ public class UserDao {
 		} finally {
 			DB.close(conn, pstmt, rs);
 		}
-		return null; // DB¿¡ username Á¸Àçx
+		return null; // DBì— username ì¡´ì¬x
 	}
 	
 	public int findByUsername(String username) {		
@@ -59,7 +59,7 @@ public class UserDao {
 			
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
-				return 1; // DB¿¡ username Á¸Àço
+				return 1; // DBì— username ì¡´ì¬o
 			}
 			
 		} catch (Exception e) {
@@ -67,10 +67,10 @@ public class UserDao {
 		} finally {
 			DB.close(conn, pstmt, rs);
 		}
-		return -1; // DB¿¡ username Á¸Àçx
+		return -1; // DBì— username ì¡´ì¬x
 	}
 	
-	public int save(JoinReqDto dto) { // È¸¿ø°¡ÀÔ		
+	public int save(JoinReqDto dto) { // íšŒì›ê°€ì…		
 		StringBuffer sb = new StringBuffer();
 		sb.append("INSERT INTO user(username, password, email, address, userRole, createDate) ");
 		sb.append("VALUES(?, ?, ?, ?, 'USER', now())");
@@ -96,15 +96,15 @@ public class UserDao {
 		return -1;
 	}
 
-	public void update() { // Á¤º¸¼öÁ¤
+	public void update() { // ì •ë³´ìˆ˜ì •
 
 	}
 
-	public void usernameCheck() { // ¾ÆÀÌµğ Áßº¹ Ã¼Å©
+	public void usernameCheck() { // ì•„ì´ë”” ì¤‘ë³µ ì²´í¬
 
 	}
 
-	public void findById() { // È¸¿øÁ¤º¸º¸±â
+	public void findById() { // íšŒì›ì •ë³´ë³´ê¸°
 
 	}
 }

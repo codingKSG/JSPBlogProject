@@ -15,7 +15,7 @@ import com.cos.blog.domain.reply.dto.SaveReqDto;
 
 public class ReplyDao {
 	
-	public int save(SaveReqDto dto) { // ´ñ±Û¾²±â
+	public int save(SaveReqDto dto) { // ëŒ“ê¸€ì“°ê¸°
 		StringBuffer sb = new StringBuffer();
 		sb.append("INSERT INTO reply(userId, boardId, content, createDate) ");
 		sb.append("VALUES(?, ?, ?, now())");
@@ -36,7 +36,7 @@ public class ReplyDao {
 			rs= pstmt.getGeneratedKeys();
 			if(rs.next()) {
 				generateId = rs.getInt(1);
-				System.out.println("»ı¼ºµÈ Å°(ID) : "+generateId);
+				System.out.println("ìƒì„±ëœ í‚¤(ID) : "+generateId);
 				
 				if(result == 1) {
 					return generateId;
@@ -51,7 +51,7 @@ public class ReplyDao {
 	}
 	
 	public List<FindAllReqDto> findAllByBoardId(int boardId) {
-		// SELECTÇØ¼­ Board °´Ã¼¸¦ ÄÃ·º¼Ç¿¡ ´ã¾Æ¼­ ¸®ÅÏ
+		// SELECTí•´ì„œ Board ê°ì²´ë¥¼ ì»¬ë ‰ì…˜ì— ë‹´ì•„ì„œ ë¦¬í„´
 		List<FindAllReqDto> replies = new ArrayList<>();
 		StringBuffer sb = new StringBuffer();
 		
@@ -90,7 +90,7 @@ public class ReplyDao {
 	}
 	
 	public FindByIdRespDto findById(int id) {
-		// SELECTÇØ¼­ Board °´Ã¼¸¦ ÄÃ·º¼Ç¿¡ ´ã¾Æ¼­ ¸®ÅÏ
+		// SELECTí•´ì„œ Board ê°ì²´ë¥¼ ì»¬ë ‰ì…˜ì— ë‹´ì•„ì„œ ë¦¬í„´
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT r.id, r.userId, r.boardId, r.content, u.username, r.createDate");
 		sb.append(" FROM reply r INNER JOIN user u ON r.userId = u.id WHERE r.id = ?");

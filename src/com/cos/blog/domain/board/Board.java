@@ -16,10 +16,10 @@ public class Board {
 	private int userId;
 	private String title;
 	private String content;
-	private int readCount; // Á¶È¸¼ö µğÆúÆ® °ª 0
+	private int readCount; // ì¡°íšŒìˆ˜ ë””í´íŠ¸ ê°’ 0
 	private Timestamp createDate;
 	
-	// ·ç½ÃÇÊÅÍ Àû¿ëÇØº¸±â!!
+	// ë£¨ì‹œí•„í„° ì ìš©í•´ë³´ê¸°!!
 	public String getTitle() {
 		return title.replaceAll("<", "&lt").replaceAll("<", "&gt");
 	}
